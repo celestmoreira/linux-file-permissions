@@ -6,7 +6,7 @@ In this lab activity, I was required to audit and correct file and directory per
 
 The following code demonstrates how I used Linux commands to determine the existing permissions set for a specific directory in the file system.
 
-![Task 1 Terminal Output](screenshot-task1.png)
+![Task 1 Terminal Output](screenshots/screenshot-task1.png)
 
 When I first checked the contents of the `projects` directory, I started with the `ls -l` command. The first line in the screenshot shows the exact command I ran, and everything below it is the output. The `ls -l` command gives a detailed listing of all _visible_ files and directories, including their permissions, the file owner, thr group owner, file sizes, and timestamps. 
 
