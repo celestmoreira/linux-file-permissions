@@ -2,7 +2,7 @@
 
 In this lab activity, I was required to audit and correct file and directory permissions in the `projects` directory. Some permissions were misconfigured, allowing more access than intended. To strengthen security, I reviewed the existing settings and updated them as needed. Below is an overview of the steps I performed:
 
-# **Check file and Directory Details** 
+# **Task 1: Check file and Directory Details** 
 
 The following code demonstrates how I used Linux commands to determine the existing permissions set for a specific directory in the file system.
 
@@ -10,7 +10,7 @@ The following code demonstrates how I used Linux commands to determine the exist
 
 When I first checked the contents of the `projects` directory, I started with the `ls -l` command. The first line in the screenshot shows the exact command I ran, and everything below it is the output. The `ls -l` command gives a detailed listing of all _visible_ files and directories, including their permissions, the file owner, thr group owner, file sizes, and timestamps. 
 
-# **Describe the Permission Strings**
+## **Describe the Permission Strings**
 
 Right after running `ls -l`, I took a closer look at the permission strings. Each item begins with a 10 character string (for example: `-rw-rw-r--` or `drwx--x---`). These characters represent permissions for three categories of users: 
 
@@ -28,4 +28,29 @@ From the full output of `ls -la`, I identified:
 - One hidden file: `.project_x.txt`
 - Five regular project files 
 
-# **Change File Permissions
+# **Task 2: Change File Permissions** 
+
+In this part of the lab, the goal was to check whether any files in the `projects` directory had permission settings that allowed **other** users (basically anyone outside the file's owner or group) to write to them. Allowing "other" users to write to files is a security risk, so the next step was to fix any incorrect permissions using the `chmod` command. 
+
+![Task 2 Terminal Output](screenshots/screenshot-task2.png)
+
+I started by running `ls -l`, this let me review the permission strings for each file. The last three characters of the 10 character permission string represent the permissions for **other** users. If the third character in that group is `w`, it means "other" users can write to the file, which should *not* be allowed in this lab. 
+
+From the output I noticed that: 
+- `project_k.txt` had the permissions: `-rw-rw-rw-` the last `w` in this string shows that **other** has write access.
+
+This is exactly the kind of permissions we need to remove. 
+
+## **Remove write permissions for "other" on `project_k.txt`
+
+To fix the permissions, I used the `chmod` command with the `o-w` option. Then I ran `ls -l` again to confirm the change. The updated permissions string showed: `-rw-rw-r--`. This confirms that **other** users no longer have write access. 
+
+## **Check if the group has read or write permissions on `project_m.txt`
+
+Next, the lab required tightening the permissions on `project_m.txt`. This file is considered **restricted**, meaning only the user should be able to read or modify it, not the group and not other users. 
+
+Currently, the permissions are `--rw-r-----`. This tells me the user has read and write access, group has read access, and other has no access. 
+
+## **Remove read access for the group on `project_m.txt`
+
+To remove read permissions from the group I used: `chmod g-r project_m.txt`. After running `ls -l` one more time, the updated permissions were: `-rw------`. Now only the user can read and write this file, and both group and other have no permissions, which matches the requirement for a restricted file. 
