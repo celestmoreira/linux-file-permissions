@@ -78,3 +78,32 @@ Which means:
 - user --> read only
 - group --> read only 
 - other --> no access 
+
+# **Task 4: Change Directory Permissions**
+
+In this task, I worked with the `drafts` subdirectory inside the `projects`directory. The goal was to make sure that only the user `researcher2` can access this directory and its contents. In Linux, directory permissions work differently from file permissions, so understanding the meaning of the execute (x) permission is especially important here. 
+
+For a _directory_, the execut permission means the ability to: 
+- enter the directory
+- navigate into it
+- access its contents
+
+For security reasons, the lab requires that *only* the **researcher2** user should have this access. 
+
+![Task 4 Terminal Output](screenshots/screenshot-task4.png)
+
+### Check the current permissions of the `drafts` directory
+
+The permissions string for the `drafts` directory was `drwx--x---`. `d` means it's a directory. Currently, the user (`researcher2`) can read, write, and execute. The group (`research_team`) has only execute permissions and other has no permissions. 
+
+Even though the group only has an execute permission, execute is enough to let them access the directory, which we do not want. 
+
+### Remove the execute permissions from the group
+
+To restrict access so only `researcher2` can enter the directory, I removed execute permissions from the group using `chmod g-x drafts`. The updated output showed `drwx------`, now the user has full access and group and user has none. 
+
+# **Summary of Project** 
+
+Throughout this project, I updated several file and directory permissions in the projects directory to align with the correct authorization levels. I began by running `ls -la` to get a full overview of the existing permissions, including hidden files. Reviewing this output helped me understand which items were too open and needed to be restricted.
+
+After identifying the issues, I used the `chmod` command to adjust permissions on multiple files and directories. These changes removed unnecessary write or execute access for the group and other users, strengthened security, and ensured that each item had permissions appropriate for its purpose.
